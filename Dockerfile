@@ -62,15 +62,15 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 RUN apk add --no-cache git
 WORKDIR $GOPATH
-RUN mkdir -p /tmp/contrail-k8s-init/
+RUN mkdir -p /tmp/contrail-k8s-init2/
 RUN go get k8s.io/client-go/...
-RUN go get github.com/michaelhenkel/contrail-k8s-init
+RUN go get github.com/michaelhenkel/contrail-k8s-init2
 RUN go get github.com/ghodss/yaml
-RUN go build -o /tmp/contrail-k8s-init/contrail-k8s-init github.com/michaelhenkel/contrail-k8s-init
+RUN go build -o /tmp/contrail-k8s-init/contrail-k8s-init2 github.com/michaelhenkel/contrail-k8s-init2
 #ENTRYPOINT ["go","build"]
 #CMD ["-o","/tmp/contrail-k8s-init/contrail-k8s-init","github.com/michaelhenkel/contrail-k8s-init"]
 
 FROM alpine:3.8
-COPY --from=0 /tmp/contrail-k8s-init/contrail-k8s-init /
+COPY --from=0 /tmp/contrail-k8s-init/contrail-k8s-init2 /
 #RUN chmod +x /contrail-k8s-init
-CMD ["/contrail-k8s-init"]
+CMD ["/contrail-k8s-init2"]
